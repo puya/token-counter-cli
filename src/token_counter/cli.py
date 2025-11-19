@@ -344,7 +344,7 @@ def main(
 
     total_tokens_overall = 0
     results_table = Table(title="Token Count Results")
-    results_table.add_column("File Path", justify="left", style="cyan", no_wrap=True)
+    results_table.add_column("File Path", justify="left", style="cyan", overflow="fold")
     results_table.add_column("Token Count", justify="right", style="magenta")
     results_table.add_column("Encoding", justify="left", style="green")
 
