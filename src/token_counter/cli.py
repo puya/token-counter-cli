@@ -10,11 +10,19 @@ import os
 from pathlib import Path
 import fnmatch
 import json
+from importlib.metadata import version
+
 
 from token_counter.counter import count_tokens
 
-app = typer.Typer()
+app = typer.Typer(context_settings={"help_option_names": ["-h", "--help"]})
 console = Console()
+
+def version_callback(value: bool):
+    if value:
+        v = version("token-counter-cli")
+        console.print(f"Token Counter CLI Version: {v}")
+        raise typer.Exit()
 
 ENCODING_OPTIONS = {
     "cl100k_base": "Used by GPT-4, GPT-3.5-Turbo, text-embedding-ada-002",
@@ -185,7 +193,15 @@ def main(
         "--recursive",
         "-r",
         help="Recursively scan subdirectories when processing directories."
-    )
+    ),
+    version: Optional[bool] = typer.Option(
+        None,
+        "--version",
+        "-v",
+        callback=version_callback,
+        is_eager=True,
+        help="Show the version and exit.",
+    ),
 ):
     """Counts the tokens in text files or stdin and displays the result."""
 
